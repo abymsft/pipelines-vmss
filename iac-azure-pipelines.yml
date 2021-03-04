@@ -9,5 +9,26 @@ pool:
     azureSubscription: 'Microsoft Azure Internal Consumption(555e9625-1109-4ea1-becc-46f545846d55)'
     scriptType: 'batch'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az group create --name myVMSSResourceGroup --location northeurope'
+    inlineScript: 'az group create --name myVMSSResourceGroup --location 
     failOnStandardError: true
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Microsoft Azure Internal Consumption(555e9625-1109-4ea1-becc-46f545846d55)'
+    scriptType: 'batch'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az storage account create \
+        --name vmssstorageaccount \
+        --resource-group myVMSSResourceGroup \
+        --location northeurope \
+        --sku Standard_LRS
+    failOnStandardError: true'
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Microsoft Azure Internal Consumption(555e9625-1109-4ea1-becc-46f545846d55)'
+    scriptType: 'batch'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az sig create --resource-group myVMSSResourceGroup --gallery-name myVMSSGallery'
+    failOnStandardError: true
+
